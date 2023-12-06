@@ -4,7 +4,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
 
 FILE_PATH = f'data/{"emotion_data.csv"}'
-class_weights = [0.3276, 0.2920, 0.1395, 0.1236, 0.0765, 0.0410]
+CLASS_WEIGHTS = [0.3276, 0.2920, 0.1395, 0.1236, 0.0765, 0.0410]
 
 # Loads data from a CSV file
 # Our file path is "Emotion_data.csv", but it is passed in as a parameter
@@ -109,7 +109,7 @@ def main():
     df = load_data(FILE_PATH)
 
     # Builds and Trains model
-    model = train_model(df['Text'], df['Emotion'], class_weights)
+    model = train_model(df['Text'], df['Emotion'], CLASS_WEIGHTS)
 
     while True:
 
