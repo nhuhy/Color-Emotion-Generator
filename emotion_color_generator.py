@@ -4,7 +4,8 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
 
 FILE_PATH = f'data/{"emotion_data.csv"}'
-CLASS_WEIGHTS = [0.3276, 0.2920, 0.1395, 0.1236, 0.0765, 0.0410]
+CLASS_FREQUENCIES = [0.1395, 0.1236, 0.3276, 0.0765, 0.2920, 0.0410]
+CLASS_WEIGHTS = [len(CLASS_FREQUENCIES) / (freq * len(CLASS_FREQUENCIES)) for freq in CLASS_FREQUENCIES]
 
 # Loads data from a CSV file
 # Our file path is "Emotion_data.csv", but it is passed in as a parameter
@@ -23,7 +24,7 @@ def load_data(file_path):
 # returns the trained model
 def train_model(train_data, train_labels, class_weights=None):
 
-    emotion_weights = dict(zip(['happy', 'sadness', 'anger', 'fear', 'love', 'surprise'], class_weights))
+    emotion_weights = dict(zip(['anger', 'fear', 'happy', 'love', 'sadness', 'surprise'], class_weights))
 
     # Create a pipeline with a text vectorizer, using MNB as the training algorithm
     model = make_pipeline(CountVectorizer(), MultinomialNB(class_prior=class_weights))
@@ -117,6 +118,8 @@ def main():
         user_input = input("\nEnter some text (or type exit to end): ")
 
         # exits program if no more
+        while not user_input:
+            user_input = input("Please enter text that is not empty: ")
         if user_input.lower() == 'exit':
             print("Exiting the program.")
             break
